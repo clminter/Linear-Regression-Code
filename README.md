@@ -77,4 +77,24 @@ print("Test Performance\n")
 lin_reg_model_test_perf = model_performance_regression(lin_reg_model, x_test, y_test)
 lin_reg_model_test_perf
 
+from mlxtend.feature_selection import SequentialFeatureSelector as SFS
 
+reg = LinearRegression()
+
+# please uncomment and run the next line if mlxtend library is not previously installed
+#!pip install mlxtend
+
+# Build step forward feature selection
+sfs = SFS(
+    reg,
+    k_features=x_train.shape[1],
+    forward=True,  # k_features denotes the number of features to select
+    floating=False,
+    scoring="r2",
+    n_jobs=-1,  # n_jobs=-1 means all processor cores will be used
+    verbose=2,
+    cv=5,
+)
+
+# Perform SFFS
+sfs = sfs.fit(x_train, y_train)
